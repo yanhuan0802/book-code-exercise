@@ -1,5 +1,10 @@
 package com.yanhuan.modernjavainaction.cap19;
 
+
+import scala.collection.immutable.Range;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -99,4 +104,26 @@ public class TreeProcessor {
                 primes(tail(numbers).filter(n -> n % head != 0))
         );
     }
+
+
+    //19.5.1：缓存或记忆表
+    final Map<Range, Integer> numberOfNodes = new HashMap<>();
+
+    Integer computeNumberOfNodesUsingCache(Range range) {
+//        Integer result = numberOfNodes.get(range);
+//        if (result != null) {
+//            return result;
+//        }
+//        result = computeNuberOfNodes(range);
+//        numberOfNodes.put(range, result);
+//        return result;
+        return numberOfNodes.computeIfAbsent(range, this::computeNuberOfNodes);
+    }
+
+    private Integer computeNuberOfNodes(Range range) {
+
+        return 1;
+    }
+
+
 }

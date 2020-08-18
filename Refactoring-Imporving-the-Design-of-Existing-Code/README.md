@@ -1,4 +1,4 @@
-# 重构：改善既有代码的设计 （Refactoring-Improving-the-Design-of-Existing-Code）
+# 重构：改善既有代码的设计 （Refactoring Improving the Design of Existing-Code）
 ## 第1章 重构，第一个案例
 - 重构的第一步：为即将修改的代码建立一组可靠的测试环境。
 - 代码分解和重组，删除局部变量，抽取方法，移动方法到使用的数据所属的对象内，修改变量名。
