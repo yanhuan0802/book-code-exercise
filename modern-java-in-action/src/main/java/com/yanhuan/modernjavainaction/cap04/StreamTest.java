@@ -1,5 +1,8 @@
 package com.yanhuan.modernjavainaction.cap04;
 
+import com.yanhuan.modernjavainaction.appendixC.Results;
+import com.yanhuan.modernjavainaction.appendixC.StreamForker;
+
 import java.util.*;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -63,7 +66,24 @@ public class StreamTest {
                 new Dish("prawns", false, 300, Dish.Type.FISH),
                 new Dish("salmon", false, 450, Dish.Type.FISH)
         );
-        
+        //附录C：StreamForker用于实战
+        Stream<Dish> menuStream = menu.stream();
+        Results results = new StreamForker<Dish>(menuStream)
+                .fork("shortMenu", s -> s.map(Dish::getName)
+                        .collect(Collectors.joining(",")))
+                .fork("totalCalories", s -> s.mapToInt(Dish::getCalories).sum())
+                .fork("mostCaloricDish", s -> s.reduce((d1, d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2).get())
+                .fork("dishesByType", s -> s.collect(Collectors.groupingBy(Dish::getType)))
+                .getResults();
+        String shortMenu = results.get("shortMenu");
+        int totalCalories = results.get("totalCalories");
+        Dish mostCaloricDish = results.get("mostCaloricDish");
+        Map<Dish.Type, List<Dish>> dishesByType = results.get("dishesByType");
+
+        System.out.println("Short Menu:" + shortMenu);
+        System.out.println("Total Calories:" + totalCalories);
+        System.out.println("Most Caloric Dish:" + mostCaloricDish);
+        System.out.println("Dishes By Type:" + dishesByType);
 //        Logger logger = Logger.getAnonymousLogger();
 //        logger.finer();
 //        Integer collect1 = menu.stream().mapToInt(Dish::getCalories).sum();
