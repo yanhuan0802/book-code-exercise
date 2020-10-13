@@ -1,7 +1,9 @@
 package com.yanhuan.refactoring.cap08;
 
 import java.util.Dictionary;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Set;
 
 /**
  * Change Value to Reference
@@ -12,6 +14,8 @@ import java.util.Hashtable;
 public class Customer {
 
     private final String name;
+
+    private Set<Order> orders = new HashSet<>();
 
     private static final Dictionary<String, Customer> INSTANCE = new Hashtable<>();
 
@@ -42,5 +46,23 @@ public class Customer {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * 将单向关联改为双向关联：辅助函数
+     *
+     * @return orderSet
+     */
+    public Set<Order> friendOrders() {
+        return orders;
+    }
+
+    /**
+     * 将单向关联改为双向关联
+     *
+     * @param order 订单
+     */
+    public void addOrder(Order order) {
+        order.setCustomer(this);
     }
 }

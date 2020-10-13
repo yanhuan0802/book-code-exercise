@@ -1,6 +1,8 @@
 package com.yanhuan.refactoring.cap08;
 
 
+import java.util.Objects;
+
 /**
  * Change Value to Reference
  *
@@ -22,5 +24,35 @@ public class Order {
         this.customer = Customer.getNamed(customerName);
     }
 
+    /**
+     * 将单向关联改为双向关联
+     *
+     * @param arg 客户
+     */
+    public void setCustomer(Customer arg) {
+        if (customer != null) {
+            customer.friendOrders().remove(this);
+        }
+        this.customer = arg;
+        if (customer != null) {
+            customer.friendOrders().add(this);
+        }
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Order order = (Order) o;
+        return Objects.equals(customer, order.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customer);
+    }
 }
